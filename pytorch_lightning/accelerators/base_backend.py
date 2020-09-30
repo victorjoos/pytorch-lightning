@@ -186,7 +186,6 @@ class BackendType(Enum):
     HOROVOD = 'horovod'
     # TODO: decouple DDP & CPU
     DDP_CPU = 'ddp_cpu'
-    TPU = 'tpu'
 
 
 class DeviceType(Enum):
