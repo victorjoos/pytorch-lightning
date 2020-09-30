@@ -19,6 +19,7 @@ import numpy as np
 import torch
 import torch.distributed as torch_distrib
 
+from pytorch_lightning.accelerators.base_backend import BackendType
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.core.lightning import LightningModule
 from pytorch_lightning.core.memory import ModelSummary
@@ -183,7 +184,7 @@ class TrainLoop:
                 subprocess.Popen.kill(proc)
 
         # clean up dist group
-        if self.trainer.use_ddp or self.trainer.use_ddp2:
+        if self.distributed_backend in (BackendType.DDP, BackendType.DDP2):
             torch_distrib.destroy_process_group()
 
         # clear mem
