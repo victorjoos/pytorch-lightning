@@ -15,6 +15,8 @@ import os
 import torch
 from typing import Optional, Sequence, List, Union
 from torch.utils.data import DataLoader
+
+from pytorch_lightning.accelerators.base_backend import DeviceType
 from pytorch_lightning.core.lightning import LightningModule
 from pytorch_lightning.loggers.base import DummyLogger
 from pytorch_lightning.utilities.exceptions import MisconfigurationException
@@ -179,7 +181,8 @@ def lr_find(
     lr_finder._total_batch_idx = trainer.total_batch_idx  # for debug purpose
 
     # Reset model state
-    trainer.checkpoint_connector.restore(str(save_path), on_gpu=trainer.on_gpu)
+    on_gpu = trainer.on_device == DeviceType.GPU
+    trainer.checkpoint_connector.restore(str(save_path), on_gpu=on_gpu)
     os.remove(save_path)
 
     # Finish by resetting variables so trainer is ready to fit model
