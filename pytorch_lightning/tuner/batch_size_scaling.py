@@ -167,6 +167,7 @@ def __scale_batch_restore_params(trainer):
     trainer.auto_scale_batch_size = trainer.__dumped_params['auto_scale_batch_size']
     trainer.limit_train_batches = trainer.__dumped_params['limit_train_batches']
     trainer.model = trainer.__dumped_params['model']
+    trainer._teardown_already_run = False
     del trainer.__dumped_params
 
 
